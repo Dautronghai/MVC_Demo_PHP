@@ -1,0 +1,64 @@
+<?php include_once 'models/nhomthietbi.php';
+/**
+* 
+*/
+class Controller_nhomthietbi extends Libs_Controller
+{
+	
+	function __construct()
+	{
+		Parent::__construct();
+	}
+	//Thêm mới một nhóm thiết bị
+	public function themmoi(){	
+		if(isset($_POST['nametennhom']) && isset($_POST['name_motanhompop'])){	
+			if(($_POST['nametennhom'] !== '') && ($_POST['name_motanhompop'] !== '')){
+				$nhomthietbi = new Model_nhomthietbi();
+				$query = 'insert into nhomthietbi(tennhom,mota) values ("'.
+					$_POST['nametennhom'].'","'.$_POST['name_motanhompop']. '")';	
+					echo $query;
+				$nhomthietbi->thucthi($query);
+			}
+		}
+	}
+	//Cập nhật thông tin thiết bị
+	public function capnhat(){	
+		if(isset($_POST['nametennhom']) && isset($_POST['name_motanhompop'])){
+			if(($_POST['nametennhom'] !== '') && ($_POST['name_motanhompop'] !== '')){
+				$nhomthietbi = new Model_nhomthietbi();
+				$query = 'update nhomthietbi set tennhom = "'.$_POST['nametennhom'].
+				'", mota = "'.$_POST['name_motanhompop'] .
+				'" Where id = '.$_POST['id'] ;
+				$nhomthietbi->thucthi($query);
+			}
+		}
+	}
+	//Danh sách nhóm thiết bị
+	//Trả về danh sách nhóm thiết bị.
+	public function dsnhomthietbi(){
+		
+		$nhomthietbi = new Model_nhomthietbi();		
+		$result = $nhomthietbi->danhsachnhomthietbi();	
+		return $result;
+	}
+	//Form thêm nhóm thiết bị
+	public function viewthemnhom(){
+		return $this->view->render('popup/popupnhomthietbi',false);
+	}
+	//Cập nhật thông tin nhóm
+	public function viewcapnhatnhom(){
+		if(isset($_POST['nhom_id'])){
+			$nhomthietbi = new Model_nhomthietbi();
+			$query = 'select * from nhomthietbi where id = '.$_POST['nhom_id'];
+			//echo $query;
+			$infor = $nhomthietbi->thucthi($query);
+			if(count($infor)>0){
+				$this->view->infor = $infor[0];
+				return $this->view->render('popup/popupnhomthietbi',false);
+			}			
+		}
+		
+	}
+	
+}
+ ?>

@@ -1,0 +1,11 @@
+<select id="cbo_nhomtb" name="cbo_nhomtb" class="form-control" >
+<?php foreach ($this->dsnhom as $key => $value):?>
+		<option <?php if ($value->id === $this->idchecked) {
+	echo 'selected';
+}
+?>
+			value="<?php echo $value->id;?>">
+<?php echo $value->tennhom;?>
+</option>
+<?php endforeach?>
+</select>

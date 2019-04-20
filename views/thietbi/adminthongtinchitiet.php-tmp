@@ -1,0 +1,129 @@
+<?php
+$thongtin = $this->infor[0];
+?>
+<div id='chitetthietbi'>
+<form action="<?php echo PATH?>/thietbi/adminthongtinchitiet_submit/<?php echo $thongtin->id;?>" enctype="multipart/form-data" method="POST">
+	<div id='chitiet_thietbi'>
+		<hr>
+			<img src="<?php echo PATH.'/media/hinhanh/'.$thongtin->hinhdaidien;?>" alt="Hinh thiet bi">
+			<div id='chi_tet'>
+				<table id='bangchitet'>
+					<tr>
+						<th>Tên thiết bị:</th>
+						<td>
+						<input type="text" name="tenthietbi" value="<?php echo $thongtin->tenthietbi;?>" placeholder="">
+						</td>
+					</tr>
+					<tr>
+						<th>Hãng sản xuất:</th>
+						<td>
+							<input type="text" name="hangsanxuat" value="<?php echo $thongtin->hangsanxuat;?>" placeholder="">
+						</td>
+					</tr>
+					<tr>
+						<th>Thuộc nhóm:</th>
+						<td id='td_cbonhom'>
+							<!--?php echo $thongtin->tennhom;?-->
+						</td>
+					</tr>
+					<tr>
+						<th>Tình trạng:</th>
+						<td id='cbo_tinhtrang'>
+							<!--?php echo $thongtin->tinhtrang;?-->
+						</td>
+					</tr>
+					<tr>
+						<th>Ngày sử dụng:</th>
+						<td>
+							<input type="date" name="dta_ngaysudung" value="<?php echo $thongtin->tg_batdaudung;?>" placeholder="">
+						</td>
+					</tr>
+					<tr>
+						<th>Vị trí đặt:</th>
+						<td>
+							<input type="text" name="txt_vitridat" value="<?php echo $thongtin->vitridat;?>" placeholder="">
+						</td>
+
+					</tr>
+					<tr>
+					<th>Người sử dụng:</th>
+						<td id='td_nguoisudung'><!--?php if($thongtin->hoten == '')
+								echo 'Thiết bị dùng chung';
+							else
+								echo $thongtin->hoten;?-->
+						</td>
+					</tr>
+					<tr>
+						<th>Mô tả chung:</th>
+						<td>
+							<textarea rows = '10'	cols = '95' id='textareastyle' name="txt_motachung">
+<?php echo trim($thongtin->motachung, '');?>
+							</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>Hình đại diện</th>
+						<td>
+							<input name='file_hinh' type="file">
+							<br>
+							<input type="text" name="txt_hinhdaidien" value="<?php echo $thongtin->hinhdaidien;?>" placeholder="">
+						</td>
+					</tr>
+
+				</table>
+			</div>
+		<input type="submit" name="submit" value="Lưu thông tin">
+	</div>
+</form>
+	<div id='nhatki'>
+
+	</div>
+	 <a href="<?php echo PATH?>/thietbi/dsthietbi/0/<?php
+echo $this->infor[0]->nhom_id;
+?>">Danh sach thiet bi</a>
+</div>
+
+<script>
+	$(document).ready(function() {
+		var urlnhomtb = "<?php echo PATH;?>/thietbi/cbo_nhomthietbi/<?php echo $thongtin->nhom_id;?>";
+
+			$.ajax({
+				url: urlnhomtb,
+				type: 'GET',
+				success: function(data){
+					//var response = $.parseJSON(data);
+					$('#td_cbonhom').html(data);
+				}
+			});
+		var urltinhtrang = "<?php echo PATH;?>/tinhtrangthietbi/cbotinhtranghietbi/<?php echo $thongtin->tinhtrang_id;?>";
+
+			$.ajax({
+				url: urltinhtrang,
+				type: 'GET',
+				success: function(data){
+					//var response = $.parseJSON(data);
+					$('#cbo_tinhtrang').html(data);
+				}
+			});
+		var urlnguoidung = "<?php echo PATH;?>/nguoidung/cbo_nguoidung/<?php echo $thongtin->nguoidung_id;?>";
+
+			$.ajax({
+				url: urlnguoidung,
+				type: 'GET',
+				success: function(data){
+					//var response = $.parseJSON(data);
+					$('#td_nguoisudung').html(data);
+				}
+			});
+		var url = "<?php echo PATH;?>/nhatkithietbi/xemnhatkithietbi/<?php echo $thongtin->id;?>";
+
+			$.ajax({
+				url: url,
+				type: 'GET',
+				success: function(data){
+					//var response = $.parseJSON(data);
+					$('#nhatki').html(data);
+				}
+			});
+	});
+</script>
